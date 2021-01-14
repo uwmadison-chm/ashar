@@ -1,0 +1,1180 @@
+{
+  "components": {
+    "1": {
+      "id": "1",
+      "type": "lab.canvas.Screen",
+      "content": [
+        {
+          "type": "i-text",
+          "version": "3.5.1",
+          "originX": "center",
+          "originY": "center",
+          "left": 0,
+          "top": 0,
+          "width": 698.9,
+          "height": 418.19,
+          "fill": "#000000",
+          "stroke": null,
+          "strokeWidth": 1,
+          "strokeDashArray": null,
+          "strokeLineCap": "butt",
+          "strokeDashOffset": 0,
+          "strokeLineJoin": "round",
+          "strokeMiterLimit": 4,
+          "scaleX": 1,
+          "scaleY": 1,
+          "angle": 0,
+          "flipX": false,
+          "flipY": false,
+          "opacity": 1,
+          "shadow": null,
+          "visible": true,
+          "clipTo": null,
+          "backgroundColor": "",
+          "fillRule": "nonzero",
+          "paintFirst": "fill",
+          "globalCompositeOperation": "source-over",
+          "transformMatrix": null,
+          "skewX": 0,
+          "skewY": 0,
+          "text": "The following are REAL people\nand the stories about them are REAL.\n\nListen to the stories, and then respond\nto the series of questions when asked.\n\nPlease make sure your sound is on.\n\nPress Enter to start.",
+          "fontSize": "32",
+          "fontWeight": "normal",
+          "fontFamily": "sans-serif",
+          "fontStyle": "normal",
+          "lineHeight": 1.16,
+          "underline": false,
+          "overline": false,
+          "linethrough": false,
+          "textAlign": "center",
+          "textBackgroundColor": "",
+          "charSpacing": 0,
+          "id": "3",
+          "styles": {}
+        }
+      ],
+      "viewport": [
+        800,
+        600
+      ],
+      "files": {
+        "rows": []
+      },
+      "responses": {
+        "rows": [
+          [
+            "",
+            "keypress",
+            "",
+            "Enter"
+          ]
+        ]
+      },
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "Init",
+              "message": "before:prepare",
+              "code": "this.state.DEBUG = false\nthis.state.stimuli_path = \"//webtasks.keck.waisman.wisc.edu/2021/chad/ashar/stimuli/\"\n\nvar params = new URLSearchParams(window.location.search);\n\nthis.state.ppt = params.get('PPT') || 0\nthis.state.session = parseInt(params.get('session') || 1)\n\n// Deterministic seed\nthis.state.seed = String(this.state.ppt) + '/' + String(this.state.session)\nif (this.state.DEBUG) {\n  console.log(\"Random seed is\", this.state.seed)\n}\n\nvar random = new lab.util.Random({\n  algorithm: 'alea',\n  seed: this.state.seed\n})\n\nthis.state.random = random\n"
+            }
+          ]
+        ]
+      },
+      "title": "Instructions and Init",
+      "_tab": "Scripts"
+    },
+    "2": {
+      "id": "2",
+      "type": "lab.html.Page",
+      "items": {
+        "rows": [
+          [
+            {
+              "required": true,
+              "type": "likert",
+              "items": [
+                {
+                  "label": "I feel tender towards this person.",
+                  "coding": "tenderness"
+                },
+                {
+                  "coding": "distress",
+                  "label": "I feel distressed by this person's suffering."
+                },
+                {
+                  "label": "This person really needs help.",
+                  "coding": "helping"
+                },
+                {
+                  "label": "This person is responsible for their suffering.",
+                  "coding": "blame"
+                },
+                {
+                  "label": "I have been randomly selecting responses on this survey.",
+                  "coding": "ATTENTION"
+                }
+              ],
+              "width": "7",
+              "anchors": [
+                "Strongly disagree",
+                null,
+                null,
+                "Neutral",
+                null,
+                null,
+                "Strongly agree"
+              ],
+              "shuffle": false,
+              "label": "Now, please rate your responses."
+            }
+          ]
+        ]
+      },
+      "scrollTop": true,
+      "submitButtonText": "Continue →",
+      "submitButtonPosition": "right",
+      "files": {
+        "rows": []
+      },
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "Responses with Attn check?",
+      "_tab": "Behavior",
+      "skipCondition": "${!parameters.attention_check}"
+    },
+    "3": {
+      "id": "3",
+      "type": "lab.flow.Loop",
+      "children": [
+        "6"
+      ],
+      "templateParameters": {
+        "columns": [
+          {
+            "name": "",
+            "type": "string"
+          },
+          {
+            "name": "",
+            "type": "string"
+          }
+        ],
+        "rows": [
+          [
+            "",
+            ""
+          ]
+        ]
+      },
+      "sample": {
+        "mode": "sequential"
+      },
+      "files": {
+        "rows": []
+      },
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "Prep ordering",
+              "message": "before:prepare",
+              "code": "var state = this.state\n// Make a spot to store donation amounts per each trial \nstate.donations = {}\n\n\n// We also need one that is only ppt\n// so we can stably sample videos without replacement\nvar random_ppt = new lab.util.Random({\n  algorithm: 'alea',\n  seed: \"seed\" + state.ppt // to avoid issues with seed 0 being false\n})\n\n\n// Create the list of trials for this session\ntrials = []\n\n\n// Generate a stable list of stimuli for this participant\nvar stim = [\n  \"Amy\", \"Angela\", \"Ann\", \"Anthony\", \"Bill\", \"Charles\", \"Crystal\", \"Destiny\",\n  \"Fanny\", \"Isaiah\", \"Jasmine\", \"Jesse\", \"Jessica\", \"Jodi\", \"Kelly\", \"Lance\",\n  \"Mike\", \"Natalie\", \"Nathan\", \"Robert\", \"Ron\", \"Valarie\", \"Wallace\", \"Will\",\n]\n\nvar practice = \"Tony\"\n\nvar stim_details = {\n  \"Tony\": {\n    is_practice: true\n  }\n}\n\nfunction add_trial(name, index) {\n  if (name in stim_details) {\n    d = stim_details[name]\n  } else {\n    d = {}\n  }\n  \n  // If we're not in practice mode, force-set it to false\n  'is_practice' in d || (d.is_practice = false)\n  \n  d.name = name\n\n  // Insert the attention check at trial 5\n  d.attention_check = (index == 5)\n\n  d.image_path = state.stimuli_path + '/' + name + '.jpg'\n  d.audio_path = state.stimuli_path + '/' + name + '.mp3'\n  \n  trials.push(d)\n}\n\nall_orders = random_ppt.shuffle(stim)\n\nif (state.session == 1) {\n  this_order = all_orders.slice(0, 8)\n} else if (state.session == 2) {\n  this_order = all_orders.slice(8, 16)\n} else {\n  this_order = all_orders.slice(16, 24)\n}\nstate.order = this_order\nstate.stim_details = stim_details\n\n// Add a practice trial for first session\nif (state.session == 1) {\n  // I don't care that this duplicates an index\n  add_trial(practice,0)\n}\n\n// Add the trials in the order we set\nthis_order.forEach((x,index) => add_trial(x,index))\nthis.options.templateParameters = trials"
+            }
+          ]
+        ]
+      },
+      "title": "Trials",
+      "_tab": "Scripts"
+    },
+    "4": {
+      "id": "4",
+      "type": "lab.canvas.Screen",
+      "content": [
+        {
+          "type": "i-text",
+          "version": "3.5.1",
+          "originX": "center",
+          "originY": "center",
+          "left": 0,
+          "top": 0,
+          "width": 347.61,
+          "height": 36.16,
+          "fill": "#000000",
+          "stroke": null,
+          "strokeWidth": 1,
+          "strokeDashArray": null,
+          "strokeLineCap": "butt",
+          "strokeDashOffset": 0,
+          "strokeLineJoin": "round",
+          "strokeMiterLimit": 4,
+          "scaleX": 1,
+          "scaleY": 1,
+          "angle": 0,
+          "flipX": false,
+          "flipY": false,
+          "opacity": 1,
+          "shadow": null,
+          "visible": true,
+          "clipTo": null,
+          "backgroundColor": "",
+          "fillRule": "nonzero",
+          "paintFirst": "fill",
+          "globalCompositeOperation": "source-over",
+          "transformMatrix": null,
+          "skewX": 0,
+          "skewY": 0,
+          "text": "${parameters.name}",
+          "fontSize": 32,
+          "fontWeight": "normal",
+          "fontFamily": "sans-serif",
+          "fontStyle": "normal",
+          "lineHeight": 1.16,
+          "underline": false,
+          "overline": false,
+          "linethrough": false,
+          "textAlign": "center",
+          "textBackgroundColor": "",
+          "charSpacing": 0,
+          "id": "30",
+          "styles": {}
+        }
+      ],
+      "viewport": [
+        800,
+        600
+      ],
+      "files": {
+        "rows": []
+      },
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "Debug Name",
+      "_tab": "Behavior",
+      "timeout": "1000",
+      "skip": true
+    },
+    "5": {
+      "id": "5",
+      "type": "lab.html.Screen",
+      "files": {
+        "rows": []
+      },
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "Video player",
+              "message": "run",
+              "code": "var comp = this\nvar body = document.getElementsByTagName('body')[0]\nvar container = document.getElementsByClassName(\"container\")[0]\nvar player_container = document.getElementById(\"player_container\")\nvar player = document.getElementById(\"player\")\nvar face = document.getElementById(\"face\")\nvar time = document.getElementById(\"time\")\nvar click_to_play = document.getElementById(\"click_to_play\")\nvar skip = document.getElementById(\"skip\")\nvar cont = document.getElementById(\"continue\")\nvar repair = document.getElementById(\"repair_opportunity\")\n\nclick_to_play.style.display = \"none\"\nskip.style.display = \"none\"\n\nvar canplay = false\n\n// Load some stuff from state into parameters to make processing data easier\nthis.parameters.ppt = this.state.ppt\nthis.parameters.session = this.state.session\n\nface.src = this.parameters.image_path;\nplayer.src = this.parameters.audio_path;\n\n\nwindow.performance = window.performance || {};\nperformance.now = (function() {\n    return performance.now    ||\n        performance.mozNow    ||\n        performance.msNow     ||\n        performance.oNow      ||\n        performance.webkitNow ||            \n        Date.now  /*none found - fallback to browser default */\n})();\n\nfunction hideCursor(){\n  body.className = 'nocursor';\n}\n\nfunction showCursor(){\n  body.className = '';\n}\n\nfunction startVideo(){\n  if (canplay) {\n    player_container.style.display = \"block\";\n    player.play();\n  }\n}\n\nclick_to_play.addEventListener(\"click\", function() {\n  startVideo();\n});\n\nskip.addEventListener(\"click\", function() {\n  // User chose to skip\n  comp.respond({skipped: true});\n});\n\nplayer.addEventListener(\"canplay\", function() {\n  canplay = true;\n  click_to_play.style.display = \"block\";\n  startVideo();\n});\n\nplayer.addEventListener(\"click\", function() {\n  if (canplay) {\n    player.play();\n  }\n});\n\nplayer.addEventListener(\"play\", function() {\n  canplay = false;\n  click_to_play.style.display = \"none\";\n  //skip.style.display = \"block\";\n  \n  start_time = performance.now();\n});\n\nplayer.addEventListener(\"timeupdate\", function() {\n  // Show time\n  var seconds_remaining =Math.round(this.duration - this.currentTime);\n  var time_display = new Date(1000 * seconds_remaining).toISOString().substr(14, 5)\n  time.innerHTML = time_display;\n});\n\nplayer.addEventListener(\"ended\", function() {\n  // Audio complete\n  comp.respond({});\n});\n\n\n"
+            }
+          ]
+        ]
+      },
+      "title": "Play Audio, Show Face",
+      "content": "<div id=\"grid_container\">\n  <div id=\"player_container\">\n    <img id=\"face\" />\n    <audio id=\"player\" preload type=\"audio/mp3\">\n    </audio>\n  </div>\n\n  <div id=\"controls_container\">\n    <div class=\"left\" id=\"time\"></div>\n    <div>&nbsp;</div>\n    <div class=\"right\">\n      <a id=\"click_to_play\" class=\"btn\">Play audio</a>\n      <a id=\"skip\" class=\"btn\">Skip audio</a>\n      <a id=\"continue\" class=\"btn\">Continue</a>\n    </div>\n  </div>\n\n</div>",
+      "_tab": "Scripts",
+      "timeout": "",
+      "skip": false
+    },
+    "6": {
+      "id": "6",
+      "type": "lab.flow.Sequence",
+      "children": [
+        "13",
+        "4",
+        "5",
+        "11",
+        "2",
+        "12",
+        "14"
+      ],
+      "files": {
+        "rows": []
+      },
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "Sequence"
+    },
+    "9": {
+      "id": "9",
+      "type": "lab.canvas.Screen",
+      "content": [
+        {
+          "type": "i-text",
+          "version": "3.5.1",
+          "originX": "center",
+          "originY": "center",
+          "left": 0,
+          "top": -150,
+          "width": 498.02,
+          "height": 36.16,
+          "fill": "#000000",
+          "stroke": null,
+          "strokeWidth": 1,
+          "strokeDashArray": null,
+          "strokeLineCap": "butt",
+          "strokeDashOffset": 0,
+          "strokeLineJoin": "round",
+          "strokeMiterLimit": 4,
+          "scaleX": 1,
+          "scaleY": 1,
+          "angle": 0,
+          "flipX": false,
+          "flipY": false,
+          "opacity": 1,
+          "shadow": null,
+          "visible": true,
+          "clipTo": null,
+          "backgroundColor": "",
+          "fillRule": "nonzero",
+          "paintFirst": "fill",
+          "globalCompositeOperation": "source-over",
+          "transformMatrix": null,
+          "skewX": 0,
+          "skewY": 0,
+          "text": "You are finished with this task. ",
+          "fontSize": 32,
+          "fontWeight": "normal",
+          "fontFamily": "sans-serif",
+          "fontStyle": "normal",
+          "lineHeight": 1.16,
+          "underline": false,
+          "overline": false,
+          "linethrough": false,
+          "textAlign": "center",
+          "textBackgroundColor": "",
+          "charSpacing": 0,
+          "id": "3",
+          "styles": {}
+        },
+        {
+          "type": "i-text",
+          "version": "3.5.1",
+          "originX": "center",
+          "originY": "center",
+          "left": 0,
+          "top": -60,
+          "width": 551.88,
+          "height": 78.11,
+          "fill": "#000000",
+          "stroke": null,
+          "strokeWidth": 1,
+          "strokeDashArray": null,
+          "strokeLineCap": "butt",
+          "strokeDashOffset": 0,
+          "strokeLineJoin": "round",
+          "strokeMiterLimit": 4,
+          "scaleX": 1,
+          "scaleY": 1,
+          "angle": 0,
+          "flipX": false,
+          "flipY": false,
+          "opacity": 1,
+          "shadow": null,
+          "visible": true,
+          "clipTo": null,
+          "backgroundColor": "",
+          "fillRule": "nonzero",
+          "paintFirst": "fill",
+          "globalCompositeOperation": "source-over",
+          "transformMatrix": null,
+          "skewX": 0,
+          "skewY": 0,
+          "text": "Please return to your previous\nbrowser window to continue. ",
+          "fontSize": 32,
+          "fontWeight": "bold",
+          "fontFamily": "sans-serif",
+          "fontStyle": "normal",
+          "lineHeight": 1.16,
+          "underline": false,
+          "overline": false,
+          "linethrough": false,
+          "textAlign": "center",
+          "textBackgroundColor": "",
+          "charSpacing": 0,
+          "id": "10",
+          "styles": {}
+        },
+        {
+          "type": "i-text",
+          "version": "3.5.1",
+          "originX": "center",
+          "originY": "center",
+          "left": 0,
+          "top": 75,
+          "width": 569.44,
+          "height": 120.05,
+          "fill": "#000000",
+          "stroke": null,
+          "strokeWidth": 1,
+          "strokeDashArray": null,
+          "strokeLineCap": "butt",
+          "strokeDashOffset": 0,
+          "strokeLineJoin": "round",
+          "strokeMiterLimit": 4,
+          "scaleX": 1,
+          "scaleY": 1,
+          "angle": 0,
+          "flipX": false,
+          "flipY": false,
+          "opacity": 1,
+          "shadow": null,
+          "visible": true,
+          "clipTo": null,
+          "backgroundColor": "",
+          "fillRule": "nonzero",
+          "paintFirst": "fill",
+          "globalCompositeOperation": "source-over",
+          "transformMatrix": null,
+          "skewX": 0,
+          "skewY": 0,
+          "text": "If you have accidentally closed that\nwindow, you can access it again by\nclicking the link in your email.",
+          "fontSize": 32,
+          "fontWeight": "normal",
+          "fontFamily": "sans-serif",
+          "fontStyle": "normal",
+          "lineHeight": 1.16,
+          "underline": false,
+          "overline": false,
+          "linethrough": false,
+          "textAlign": "center",
+          "textBackgroundColor": "",
+          "charSpacing": 0,
+          "id": "11",
+          "styles": {}
+        }
+      ],
+      "viewport": [
+        800,
+        600
+      ],
+      "files": {
+        "rows": []
+      },
+      "responses": {
+        "rows": [
+          [
+            "",
+            "click",
+            "",
+            ""
+          ]
+        ]
+      },
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "End",
+      "_tab": "Content",
+      "timeout": "100"
+    },
+    "11": {
+      "id": "11",
+      "type": "lab.html.Page",
+      "items": {
+        "rows": [
+          [
+            {
+              "required": true,
+              "type": "likert",
+              "items": [
+                {
+                  "label": "I feel tender towards this person.",
+                  "coding": "tenderness"
+                },
+                {
+                  "coding": "distress",
+                  "label": "I feel distressed by this person's suffering."
+                },
+                {
+                  "label": "This person really needs help.",
+                  "coding": "helping"
+                },
+                {
+                  "label": "This person is responsible for their suffering.",
+                  "coding": "blame"
+                }
+              ],
+              "width": "7",
+              "anchors": [
+                "Strongly disagree",
+                null,
+                null,
+                "Neutral",
+                null,
+                null,
+                "Strongly agree"
+              ],
+              "shuffle": false,
+              "label": "Now, please rate your responses."
+            }
+          ]
+        ]
+      },
+      "scrollTop": true,
+      "submitButtonText": "Continue →",
+      "submitButtonPosition": "right",
+      "files": {
+        "rows": []
+      },
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "Responses?",
+      "_tab": "Behavior",
+      "skipCondition": "${parameters.attention_check}",
+      "skip": false
+    },
+    "12": {
+      "id": "12",
+      "type": "lab.html.Page",
+      "items": {
+        "rows": [
+          [
+            {
+              "required": true,
+              "type": "radio",
+              "options": [
+                {
+                  "label": "$0",
+                  "coding": "0"
+                },
+                {
+                  "label": "$1",
+                  "coding": "1"
+                },
+                {
+                  "label": "$2",
+                  "coding": "2"
+                },
+                {
+                  "label": "$3",
+                  "coding": "3"
+                },
+                {
+                  "label": "$4",
+                  "coding": "4"
+                },
+                {
+                  "label": "$5",
+                  "coding": "5"
+                },
+                {
+                  "label": "$6",
+                  "coding": "6"
+                },
+                {
+                  "label": "$7",
+                  "coding": "7"
+                },
+                {
+                  "label": "$8",
+                  "coding": "8"
+                },
+                {
+                  "label": "$9",
+                  "coding": "9"
+                },
+                {
+                  "label": "$10",
+                  "coding": "10"
+                }
+              ],
+              "label": "How much money would you donate to this individual?",
+              "help": "Remember, one of your donation choices during this series will be chosen and made to the respective charity.",
+              "name": "donation_amount"
+            }
+          ]
+        ]
+      },
+      "scrollTop": true,
+      "submitButtonText": "Continue →",
+      "submitButtonPosition": "right",
+      "files": {
+        "rows": []
+      },
+      "responses": {
+        "rows": [
+          [
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "End and choose donation",
+              "message": "end",
+              "code": "if (!this.parameters.is_practice) {\n  this.state.donations[this.parameters.name] = this.data.donation_amount\n}"
+            }
+          ]
+        ]
+      },
+      "title": "Donation Amount",
+      "_tab": "Scripts"
+    },
+    "13": {
+      "id": "13",
+      "type": "lab.canvas.Screen",
+      "content": [
+        {
+          "type": "i-text",
+          "version": "3.5.1",
+          "originX": "center",
+          "originY": "center",
+          "left": 0,
+          "top": 0,
+          "width": 588.35,
+          "height": 287.83,
+          "fill": "black",
+          "stroke": null,
+          "strokeWidth": 1,
+          "strokeDashArray": null,
+          "strokeLineCap": "butt",
+          "strokeDashOffset": 0,
+          "strokeLineJoin": "round",
+          "strokeMiterLimit": 4,
+          "scaleX": 1,
+          "scaleY": 1,
+          "angle": 0,
+          "flipX": false,
+          "flipY": false,
+          "opacity": 1,
+          "shadow": null,
+          "visible": true,
+          "clipTo": null,
+          "backgroundColor": "",
+          "fillRule": "nonzero",
+          "paintFirst": "fill",
+          "globalCompositeOperation": "source-over",
+          "transformMatrix": null,
+          "skewX": 0,
+          "skewY": 0,
+          "text": "This is your first time doing the task,\nso let's do a practice run.\n\nListen to the story, and then\nanswer some questions.\n\nHit Enter to start.",
+          "fontSize": 32,
+          "fontWeight": "normal",
+          "fontFamily": "sans-serif",
+          "fontStyle": "normal",
+          "lineHeight": 1.16,
+          "underline": false,
+          "overline": false,
+          "linethrough": false,
+          "textAlign": "center",
+          "textBackgroundColor": "",
+          "charSpacing": 0,
+          "id": "120",
+          "styles": {}
+        }
+      ],
+      "viewport": [
+        800,
+        600
+      ],
+      "files": {
+        "rows": []
+      },
+      "responses": {
+        "rows": [
+          [
+            "enter",
+            "keypress",
+            "",
+            "Enter"
+          ]
+        ]
+      },
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "",
+              "message": "",
+              "code": ""
+            }
+          ]
+        ]
+      },
+      "title": "Practice?",
+      "_tab": "Behavior",
+      "skip": false,
+      "skipCondition": "${!parameters.is_practice}"
+    },
+    "14": {
+      "id": "14",
+      "type": "lab.canvas.Screen",
+      "content": [
+        {
+          "type": "i-text",
+          "version": "3.5.1",
+          "originX": "center",
+          "originY": "center",
+          "left": 0,
+          "top": 0,
+          "width": 552.88,
+          "height": 329.78,
+          "fill": "black",
+          "stroke": null,
+          "strokeWidth": 1,
+          "strokeDashArray": null,
+          "strokeLineCap": "butt",
+          "strokeDashOffset": 0,
+          "strokeLineJoin": "round",
+          "strokeMiterLimit": 4,
+          "scaleX": 1,
+          "scaleY": 1,
+          "angle": 0,
+          "flipX": false,
+          "flipY": false,
+          "opacity": 1,
+          "shadow": null,
+          "visible": true,
+          "clipTo": null,
+          "backgroundColor": "",
+          "fillRule": "nonzero",
+          "paintFirst": "fill",
+          "globalCompositeOperation": "source-over",
+          "transformMatrix": null,
+          "skewX": 0,
+          "skewY": 0,
+          "text": "Practice run complete.\n\nYou will now watch and respond to\neight videos.\n\nThis will take about 10 minutes.\n\nHit Enter to start.",
+          "fontSize": 32,
+          "fontWeight": "normal",
+          "fontFamily": "sans-serif",
+          "fontStyle": "normal",
+          "lineHeight": 1.16,
+          "underline": false,
+          "overline": false,
+          "linethrough": false,
+          "textAlign": "center",
+          "textBackgroundColor": "",
+          "charSpacing": 0,
+          "id": "120",
+          "styles": {}
+        }
+      ],
+      "viewport": [
+        800,
+        600
+      ],
+      "files": {
+        "rows": []
+      },
+      "responses": {
+        "rows": [
+          [
+            "enter",
+            "keypress",
+            "",
+            "Enter"
+          ]
+        ]
+      },
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": []
+      },
+      "title": "Practice Complete?",
+      "_tab": "Content",
+      "skip": false,
+      "skipCondition": "${!parameters.is_practice}"
+    },
+    "35": {
+      "id": "35",
+      "type": "lab.canvas.Screen",
+      "content": [
+        {
+          "type": "i-text",
+          "version": "3.5.1",
+          "originX": "center",
+          "originY": "center",
+          "left": 0,
+          "top": 0,
+          "width": 860.55,
+          "height": 467.55,
+          "fill": "#000000",
+          "stroke": null,
+          "strokeWidth": 1,
+          "strokeDashArray": null,
+          "strokeLineCap": "butt",
+          "strokeDashOffset": 0,
+          "strokeLineJoin": "round",
+          "strokeMiterLimit": 4,
+          "scaleX": 1,
+          "scaleY": 1,
+          "angle": 0,
+          "flipX": false,
+          "flipY": false,
+          "opacity": 1,
+          "shadow": null,
+          "visible": true,
+          "clipTo": null,
+          "backgroundColor": "",
+          "fillRule": "nonzero",
+          "paintFirst": "fill",
+          "globalCompositeOperation": "source-over",
+          "transformMatrix": null,
+          "skewX": 0,
+          "skewY": 0,
+          "text": "Your donation of\n${state.donation_amount} dollars for ${state.donation_name}\nwas chosen.\n\nA donation of ${state.donation_amount} dollars will be sent to you in a\npre-addressed envelope made out to Porchlight, Inc.\nAll you need to do is drop it in the mail!\n\nPorchlight is a local organization working to reduce\nhomelessness in Dane County. You can learn more\nabout them here: https://porchlightinc.org/\n\nThank you!\n\nPlease hit Enter to continue.",
+          "fontSize": "24",
+          "fontWeight": "normal",
+          "fontFamily": "sans-serif",
+          "fontStyle": "normal",
+          "lineHeight": 1.16,
+          "underline": false,
+          "overline": false,
+          "linethrough": false,
+          "textAlign": "center",
+          "textBackgroundColor": "",
+          "charSpacing": 0,
+          "id": "3",
+          "styles": {}
+        }
+      ],
+      "viewport": [
+        800,
+        600
+      ],
+      "files": {
+        "rows": []
+      },
+      "responses": {
+        "rows": [
+          [
+            "enter",
+            "keypress",
+            "",
+            "Enter"
+          ]
+        ]
+      },
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "messageHandlers": {
+        "rows": [
+          [
+            {
+              "title": "Choose donation",
+              "message": "before:prepare",
+              "code": "var state = this.state\nstate.donation_name = state.random.choice(state.order)\nstate.donation_amount = state.donations[state.donation_name]\n"
+            }
+          ]
+        ]
+      },
+      "title": "Donation Result",
+      "_tab": "Content",
+      "timeout": "",
+      "tardy": true
+    },
+    "root": {
+      "id": "root",
+      "title": "root",
+      "type": "lab.flow.Sequence",
+      "children": [
+        "1",
+        "3",
+        "35",
+        "9"
+      ],
+      "parameters": {
+        "rows": [
+          [
+            {
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        ]
+      },
+      "plugins": [
+        {
+          "type": "lab.plugins.Metadata"
+        }
+      ],
+      "metadata": {
+        "title": "Ashar Empathy and Compassion Task",
+        "description": "Ashar task converted from https://github.com/canlab/Paradigms_Public/tree/master/2016_Ashar_Empathy_CompassionMeditation/EPrimeScripts",
+        "repository": "",
+        "contributors": "Dan Fitch <dfitch@wisc.edu>"
+      }
+    }
+  },
+  "version": [
+    20,
+    1,
+    1
+  ],
+  "files": {
+    "files": {
+      "index.html": {
+        "content": "data:text/html,%3C!doctype%20html%3E%0A%3Chtml%3E%0A%3Chead%3E%0A%20%20%3Cmeta%20charset%3D%22utf-8%22%3E%0A%20%20%3Ctitle%3EExperiment%3C%2Ftitle%3E%0A%20%20%3C!--%20viewport%20setup%20--%3E%0A%20%20%3Cmeta%20name%3D%22viewport%22%20content%3D%22width%3Ddevice-width%2C%20initial-scale%3D1%22%3E%0A%20%20%3C!--%20lab.js%20library%20and%20experiment%20code%20--%3E%0A%20%20%3Cscript%20src%3D%22%2F%2Fcdnjs.cloudflare.com%2Fajax%2Flibs%2Fseedrandom%2F3.0.5%2Fseedrandom.min.js%22%3E%0A%20%20%3C%2Fscript%3E%0A%20%20%24%7B%20header%20%7D%0A%3C%2Fhead%3E%0A%3Cbody%3E%0A%20%20%3C!--%20If%20you'd%20rather%20have%20a%20container%20with%20a%20fixed%20width%0A%20%20%20%20%20%20%20and%20variable%20height%2C%20try%20removing%20the%20fullscreen%20class%20below%20--%3E%0A%20%20%3Cdiv%20class%3D%22container%20fullscreen%22%20data-labjs-section%3D%22main%22%3E%0A%20%20%20%20%3Cmain%20class%3D%22content-vertical-center%20content-horizontal-center%22%3E%0A%20%20%20%20%20%20%3Cdiv%3E%0A%20%20%20%20%20%20%20%20%3Ch2%3ELoading%20Experiment%3C%2Fh2%3E%0A%20%20%20%20%20%20%20%20%3Cp%3EThe%20experiment%20is%20loading%20and%20should%20start%20in%20a%20few%20seconds%3C%2Fp%3E%0A%20%20%20%20%20%20%3C%2Fdiv%3E%0A%20%20%20%20%3C%2Fmain%3E%0A%20%20%3C%2Fdiv%3E%0A%3C%2Fbody%3E%0A%3C%2Fhtml%3E%0A",
+        "source": "library"
+      },
+      "style.css": {
+        "content": "data:text/css,%2F*%20Please%20define%20your%20custom%20styles%20here%20*%2F%0A%0Abody%20%7B%0A%20%20background-color%3A%20%23fff%3B%0A%20%20color%3A%20%23000%3B%0A%20%20font-family%3A%20'Calibri'%2C%20sans-serif%3B%0A%20%20text-align%3A%20center%3B%0A%7D%0A%0A%0A.alert%20%7B%0A%20%20background-color%3A%20%23666%3B%0A%7D%0A%0Ah1%2C%20h2%2C%20h3%2C%20h4%2C%20h5%2C%20h6%2C%20.btn%20%7B%0A%20%20font-family%3A%20'Tahoma'%2C%20sans-serif%3B%0A%7D%0A%0Ah1%2C%20h2%2C%20h3%2C%20h4%2C%20h5%2C%20h6%2C%20p%20%7B%0A%20%20margin%3A%200%3B%0A%20%20margin-bottom%3A%200.1em%3B%0A%7D%0A%0A%0A.btn.huge%20%7B%0A%20%20font-size%3A%20200%25%3B%0A%7D%0A%0A%2F*%20old%20button%20style%20*%2F%0A.horizontal-button%20%7B%0A%20%20display%3A%20inline-block%3B%0A%20%20text-align%3A%20center%3B%0A%20%20vertical-align%3A%20middle%3B%0A%20%20text-decoration%3A%20none%3B%0A%20%20padding%3A%200.2em%3B%0A%20%20margin%3A%200.2em%3B%0A%20%20border%3A%202px%20solid%20%23666%3B%0A%7D%0A.horizontal-button%3Ahover%2C%20.horizontal-button%3Avisited%2C%20.horizontal-button%20%7B%0A%20%20color%3A%20black%3B%0A%20%20text-decoration%3A%20none%3B%0A%7D%0A%0A.horizontal-button%3Ahover%20%7B%0A%20%20border%3A%202px%20solid%20%23000%3B%0A%7D%0A%0A%0A.btn%2C%20footer%20button%20%7B%0A%20%20display%3A%20block%3B%0A%20%20padding%3A%2016px%2042px%3B%0A%20%20margin%3A%2024px%200%3B%0A%20%20box-shadow%3A%200px%200px%2012px%204px%20rgba(0%2C%200%2C%200%2C%200.25)%3B%0A%20%20line-height%3A%201.25%3B%0A%20%20background%3A%20rgb(152%2C%20202%2C%20231)%3B%0A%20%20text-decoration%3A%20none%3B%0A%20%20color%3A%20black%3B%0A%20%20font-size%3A%2016px%3B%0A%20%20letter-spacing%3A%20.08em%3B%0A%20%20text-transform%3A%20uppercase%3B%0A%20%20position%3A%20relative%3B%0A%20%20-webkit-transition%3A%20background-color%20.6s%20ease%3B%0A%20%20transition%3A%20background-color%20.6s%20ease%3B%0A%20%20overflow%3A%20hidden%3B%0A%7D%0A.btn%3Aafter%2C%20footer%20button%3Aafter%20%7B%0A%20%20content%3A%20%22%22%3B%0A%20%20position%3A%20absolute%3B%0A%20%20width%3A%200%3B%0A%20%20height%3A%200%3B%0A%20%20top%3A%2050%25%3B%0A%20%20left%3A%2050%25%3B%0A%20%20-webkit-transform-style%3A%20flat%3B%0A%20%20%20%20%20%20%20%20%20%20transform-style%3A%20flat%3B%0A%20%20-webkit-transform%3A%20translate3d(-50%25%2C%20-50%25%2C%200)%3B%0A%20%20%20%20%20%20%20%20%20%20transform%3A%20translate3d(-50%25%2C%20-50%25%2C%200)%3B%0A%20%20background%3A%20rgba(255%2C%20255%2C%20255%2C%200.1)%3B%0A%20%20border-radius%3A%20100%25%3B%0A%20%20-webkit-transition%3A%20width%20.3s%20ease%2C%20height%20.3s%20ease%3B%0A%20%20transition%3A%20width%20.3s%20ease%2C%20height%20.3s%20ease%3B%0A%7D%0A.btn%3Afocus%2C%20.btn%3Ahover%2C%20footer%20button%3Afocus%2C%20footer%20button%3Ahover%20%7B%0A%20%20background%3A%20rgb(81%2C%20189%2C%20252)%3B%0A%7D%0A%0A.float-left%20%7B%20float%3A%20left%3B%20%7D%0A.float-right%20%7B%20float%3A%20right%3B%20%7D%0A%0A.left%20%7B%20text-align%3A%20left%3B%20%7D%0A.right%20%7B%20text-align%3A%20right%3B%20%7D%0A%0A.container%20%7B%0A%20%20border%3A%20none%3B%0A%7D%0A%0A.container.fullscreen%20%7B%0A%20%20margin%3A%200%3B%0A%7D%0A%0A.align-left%20%7B%0A%20%20text-align%3A%20left%3B%0A%7D%0A%0A.vspace%20%7B%0A%20%20min-height%3A%202em%3B%0A%7D%0A%0A.space%20%7B%0A%20%20margin%3A%202em%20auto%3B%0A%7D%0A%0A.limit-width%20%7B%0A%20%20max-width%3A%2050em%3B%0A%7D%0A%0A%2F*%20Tweak%20form%20page%20format%20width%20*%2F%0A.w-m%20%7B%0A%20%20max-width%3A%2050em%20!important%3B%0A%7D%0A%0A%0A.nocursor%20%7B%20cursor%3A%20none%3B%20%7D%0A%0A%23grid_container%20%7B%0A%20%20display%3A%20grid%3B%0A%20%20place-items%3A%20center%3B%0A%20%20grid-template-columns%3A%201fr%3B%0A%20%20grid-template-rows%3A%201fr%3B%0A%20%20width%3A%20100vw%3B%0A%20%20height%3A%20100vh%3B%0A%20%20max-width%3A%20100vw%3B%0A%20%20max-height%3A%20100vh%3B%0A%20%20margin%3A%200%3B%0A%20%20padding%3A%200%3B%0A%7D%0A%0Avideo%3A%3A-webkit-media-controls-fullscreen-button%2Cvideo%3A%3A-webkit-media-controls-play-button%2C%20video%3A%3A-webkit-media-controls-pausebutton%20%7B%0A%20%20%20%20display%3A%20none%3B%0A%7D%0A%0A%23title%20%7B%0A%20%20text-align%3A%20center%3B%0A%7D%0A%0A%23player_container%20%7B%0A%20%20display%3A%20none%3B%0A%20%20width%3A%20100%25%3B%0A%20%20max-width%3A%20100vw%3B%0A%20%20max-height%3A%2090vh%3B%0A%20%20height%3A%2050vh%3B%0A%7D%0A%0A%23face%20%7B%0A%20%20height%3A%2050vh%3B%0A%7D%0A%0A%0A%23time%20%7B%0A%20%20font-size%3A%20200%25%3B%0A%20%20color%3A%20white%3B%0A%20%20text-shadow%3A%201px%201px%202px%20black%3B%20%0A%7D%0A%0A%23controls_container%20%7B%0A%20%20position%3A%20fixed%3B%0A%20%20z-index%3A%2020%3B%0A%20%20bottom%3A%2010px%3B%0A%20%20width%3A%20100vw%3B%0A%20%20padding%3A%200%202em%3B%0A%20%20display%3A%20grid%3B%0A%20%20grid-template-columns%3A%20200px%20auto%20200px%3B%0A%20%20grid-template-rows%3A%201fr%3B%0A%7D%0A%0A%0A%23skip%20%7B%0A%20%20display%3A%20none%3B%0A%7D%0A%0A%23continue%20%7B%0A%20%20display%3A%20none%3B%0A%7D%0A",
+        "source": "library"
+      }
+    },
+    "bundledFiles": {
+      "lib/lab.js": {
+        "type": "application/javascript"
+      },
+      "lib/lab.js.map": {
+        "type": "text/plain"
+      },
+      "lib/lab.fallback.js": {
+        "type": "application/javascript"
+      },
+      "lib/lab.legacy.js": {
+        "type": "application/javascript"
+      },
+      "lib/lab.legacy.js.map": {
+        "type": "text/plain"
+      },
+      "lib/lab.css": {
+        "type": "text/css"
+      },
+      "lib/loading.svg": {
+        "type": "image/svg+xml"
+      }
+    }
+  }
+}
