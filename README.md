@@ -17,11 +17,14 @@ Please rate how strongly you are feeling each emotion and only that emotion.  Fo
 Some of the emotions we ask about may not describe your experience at all -- in that case, just say you aren't feeling them at all.
 
 -------
+
 Comprehension check:
 
 If I am not feeling the particular emotion being asked about, I should:
+
 1. Say that I am not feeling it
 2. Just rate how emotional I am feeling in general
+
 -------
 
 Many of the emotions we will ask you about are self-explanatory, but there is one we want to explain a little further. 
@@ -29,12 +32,15 @@ Many of the emotions we will ask you about are self-explanatory, but there is on
 By "tender," we mean a feeling of caring, openness, and warmth toward another person.
 
 -------
+
 Comprehension check:
 
 Which of these is what we mean by feeling "tender"?
-1, Feeling generally positive
-2, A feeling of care, openness, and warmth
-3, Feeling distressed and upset
+
+1. Feeling generally positive
+2. A feeling of care, openness, and warmth
+3. Feeling distressed and upset
+
 ------- 
 
 ...then there's some stuff about not closing the browser window and a comprehension check to make sure they understand that they will need to return to this window. Then the actual link.
